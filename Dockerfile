@@ -33,7 +33,7 @@ RUN apk --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing add --no-
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/*
 
-ENV SABNZBD_VERSION=1.0.2
+ENV SABNZBD_VERSION=1.0.3
 
 # sabnzbd
 RUN cd /tmp \
