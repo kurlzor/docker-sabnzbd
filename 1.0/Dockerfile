@@ -1,10 +1,10 @@
 FROM alpine:latest
 
-ENV BUILD_TOOLS="autoconf automake g++ libffi-dev make linux-headers python-dev openssl-dev" PAR2CMDLINE_VERSION=v0.6.14
+ENV BUILD_TOOLS="autoconf automake g++ libffi-dev libtbb-dev make linux-headers python-dev openssl-dev"
 
 RUN apk --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing add --no-cache \
     ${BUILD_TOOLS} \
-    curl git python unrar unzip p7zip \
+    curl git libtbb python unrar unzip p7zip \
 # pip
     && cd /tmp \
     && curl https://bootstrap.pypa.io/get-pip.py > pip.py \
@@ -19,12 +19,8 @@ RUN apk --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing add --no-
     && python setup.py install \
 # par2cmdline
     && cd /tmp \
-    && curl -o par2cmdline.tar.gz https://codeload.github.com/Parchive/par2cmdline/tar.gz/${PAR2CMDLINE_VERSION} \
-    && tar xzfv par2cmdline.tar.gz \
-    && cd par2cmdline-* \
-    && aclocal \
-    && automake --add-missing \
-    && autoconf \
+    && git clone https://github.com/kurlzor/par2tbb.git \
+    && cd par2tbb \
     && ./configure \
     && make \
     && make install \
